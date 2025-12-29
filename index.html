@@ -2,22 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Alpha Scout // V52 (Speedmaster)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <link id="app-icon" rel="apple-touch-icon" href="">
+    <title>Alpha Scout</title> <meta name="description" content="Real-Time Crypto Intelligence">
+    
+    <link id="favicon" rel="icon" href="https://i.postimg.cc/0yf3NkFZ/photo-5951938547948391284-y.jpg">
+    <link id="shortcut" rel="shortcut icon" href="https://i.postimg.cc/0yf3NkFZ/photo-5951938547948391284-y.jpg">
+    <link id="app-icon" rel="apple-touch-icon" href="https://i.postimg.cc/0yf3NkFZ/photo-5951938547948391284-y.jpg">
+    
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Alpha Scout">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#f0f9ff">
-    
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js" defer></script>
-    
+
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+
     <style>
+        /* THE VIBE: Sky Blue & Clean */
         :root {
             --bg-gradient: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
             --glass-bg: rgba(255, 255, 255, 0.4);
             --glass-border: rgba(255, 255, 255, 0.6);
             --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            --glass-blur: blur(20px);
             --text-main: #0f172a;
             --text-muted: #475569;
             --accent: #0ea5e9;
@@ -29,11 +36,12 @@
             margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: var(--bg-gradient); background-attachment: fixed;
             color: var(--text-main); min-height: 100vh;
-            display: flex; justify-content: center; padding: 20px 10px;
+            display: flex; justify-content: center; 
+            padding: 20px 10px; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom);
             -webkit-tap-highlight-color: transparent;
         }
 
-        .container { width: 100%; max-width: 600px; display: flex; flex-direction: column; min-height: 90vh; }
+        .container { width: 100%; max-width: 600px; padding-bottom: 60px; min-height: 85vh; display: flex; flex-direction: column; }
 
         /* HEADER */
         header { margin-bottom: 20px; text-align: center; position: relative; }
@@ -41,7 +49,6 @@
         .app-logo { width: 40px; height: 40px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); object-fit: cover; }
         h1 { font-weight: 800; font-size: 2rem; margin: 0; letter-spacing: -1px; color: var(--text-main); }
         .subtitle { color: var(--accent); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; opacity: 0.9; }
-        
         .news-toggle {
             position: absolute; right: 0; top: 10px; cursor: pointer;
             background: var(--glass-bg); padding: 10px; border-radius: 50%;
@@ -62,7 +69,7 @@
 
         /* CARDS */
         .card {
-            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            background: var(--glass-bg); backdrop-filter: var(--glass-blur);
             border: 1px solid var(--glass-border); border-radius: 20px; padding: 20px;
             margin-bottom: 15px; box-shadow: var(--glass-shadow);
         }
@@ -111,7 +118,7 @@
         }
         .tab.active { background: #fff; color: var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
-        /* WIDGETS */
+        /* ORACLE & HEATMAP */
         .oracle-container { height: 425px; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border); background: #fff; }
         .oracle-controls { display: flex; gap: 8px; margin-bottom: 15px; }
         .oracle-btn {
@@ -132,7 +139,7 @@
         }
         .row:active { background: #fff; transform: scale(0.98); }
         .row-left { display: flex; align-items: center; gap: 12px; }
-        .row-img { width: 36px; height: 36px; border-radius: 50%; }
+        .row-img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
         .row-name { font-weight: 700; font-size: 0.95rem; color: var(--text-main); }
         .row-sub { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 6px; }
         .row-right { text-align: right; }
@@ -166,23 +173,18 @@
         .tool-btn:active { transform: scale(0.98); }
 
         /* MODAL */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 999; }
-        .modal-content { background: #fff; width: 95%; max-width: 800px; height: 75vh; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px); display: none; justify-content: center; align-items: center; z-index: 999; }
+        .modal-content { background: #fff; width: 92%; max-width: 800px; height: 75vh; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
         .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; }
         .modal-title-box { display:flex; align-items:center; gap:12px; }
         .close-btn { background: #f1f5f9; border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 700; }
-        #chart-box { flex-grow: 1; border-radius: 16px; overflow: hidden; background: #fff; border: 1px solid #e2e8f0; }
+        #chart-container { flex-grow: 1; border-radius: 16px; overflow: hidden; background: #fff; margin-bottom: 15px; border: 1px solid #e2e8f0; }
         
         .hidden { display: none; }
         .loader { text-align: center; padding: 30px; font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
         
-        /* FIXED FOOTER (STATIC) */
-        .attribution { 
-            margin-top: auto; /* Pushes to bottom of container */
-            padding-top: 40px; padding-bottom: 20px;
-            text-align: center; font-size: 0.65rem; color: var(--text-muted); 
-            opacity: 0.6; font-weight: 500; 
-        }
+        /* FOOTER */
+        .attribution { margin-top: auto; padding-top: 30px; text-align: center; font-size: 0.65rem; color: var(--text-muted); opacity: 0.6; font-weight: 500; }
     </style>
 </head>
 <body>
@@ -295,7 +297,7 @@
         document.getElementById('display-logo').src = CONFIG.logo;
         document.getElementById('m-img').src = CONFIG.logo;
 
-        // MOCK DATA
+        // MOCK DATA (Fallback)
         const MOCK_MARKET = [
             { id: "bitcoin", name: "Bitcoin", symbol: "btc", image: CONFIG.logo, current_price: 95000, price_change_percentage_24h: 2.5 },
             { id: "ethereum", name: "Ethereum", symbol: "eth", image: "https://assets.coingecko.com/coins/images/279/small/ethereum.png", current_price: 2700, price_change_percentage_24h: 1.2 },
@@ -458,22 +460,21 @@
             window.open(url, '_blank');
         }
 
-        // --- RESTORED CHART LOGIC (V17 Style) ---
+        // --- CHART LAUNCHER (V17 Logic) ---
         const modal = document.getElementById('modal');
-        const chartContainer = document.getElementById('chart-container'); // Correct ID
+        const chartContainer = document.getElementById('chart-container');
 
         function launchModal(name, img, symbol) {
             document.getElementById('modal-title').innerText = name;
             document.getElementById('m-img').src = img || CONFIG.logo;
             
-            // 1. Clear previous widget
+            // 1. Clear old chart
             chartContainer.innerHTML = '';
             
-            // 2. Show Modal FIRST (Important for widget init)
+            // 2. Show Modal (Flex)
             modal.style.display = 'flex';
-            setTimeout(() => modal.classList.add('show-modal'), 10);
             
-            // 3. Init Widget Immediately (No timeouts)
+            // 3. Init TradingView IMMEDIATELY (No timeouts/No Defer)
             new TradingView.widget({
                 "autosize": true,
                 "symbol": symbol,
@@ -485,17 +486,14 @@
                 "toolbar_bg": "#f1f3f6",
                 "enable_publishing": false,
                 "allow_symbol_change": true,
-                "container_id": "chart-container" // Must match div ID
+                "container_id": "chart-container"
             });
         }
 
         function closeModal(e) {
             if (e === null || e.target === modal || e.target.tagName === 'BUTTON') {
-                modal.classList.remove('show-modal');
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                    chartContainer.innerHTML = ''; // Clean up
-                }, 300);
+                modal.style.display = 'none';
+                chartContainer.innerHTML = ''; 
             }
         }
 
