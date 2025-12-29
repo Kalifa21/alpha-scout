@@ -2,35 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Alpha Scout // V52 (Speedmaster)</title>
     
-    <title>Alpha Scout</title>
-    <meta name="description" content="Real-Time Crypto Intelligence & Sniper Tools">
-    
-    <meta property="og:title" content="Alpha Scout">
-    <meta property="og:description" content="Real-Time Intelligence & Sniper Tools">
-    <meta property="og:image" content="https://i.postimg.cc/0yf3NkFZ/photo-5951938547948391284-y.jpg">
-    <meta property="og:url" content="https://alpha-scout.vercel.app">
-    <meta property="og:type" content="website">
-
-    <link rel="icon" type="image/jpeg" href="https://i.postimg.cc/0yf3NkFZ/photo-5951938547948391284-y.jpg">
-    <link rel="shortcut icon" type="image/jpeg" href="https://i.postimg.cc/0yf3NkFZ/photo-5951938547948391284-y.jpg">
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/0yf3NkFZ/photo-5951938547948391284-y.jpg">
-    
+    <link id="app-icon" rel="apple-touch-icon" href="">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Alpha Scout">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#f0f9ff">
-
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js" defer></script>
+    
     <style>
-        /* THE VIBE: Sky Blue & Clean */
         :root {
             --bg-gradient: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
             --glass-bg: rgba(255, 255, 255, 0.4);
             --glass-border: rgba(255, 255, 255, 0.6);
             --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-            --glass-blur: blur(20px);
             --text-main: #0f172a;
             --text-muted: #475569;
             --accent: #0ea5e9;
@@ -42,12 +29,11 @@
             margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: var(--bg-gradient); background-attachment: fixed;
             color: var(--text-main); min-height: 100vh;
-            display: flex; justify-content: center; 
-            padding: 20px 10px; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom);
+            display: flex; justify-content: center; padding: 20px 10px;
             -webkit-tap-highlight-color: transparent;
         }
 
-        .container { width: 100%; max-width: 600px; padding-bottom: 80px; }
+        .container { width: 100%; max-width: 600px; display: flex; flex-direction: column; min-height: 90vh; }
 
         /* HEADER */
         header { margin-bottom: 20px; text-align: center; position: relative; }
@@ -55,6 +41,7 @@
         .app-logo { width: 40px; height: 40px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); object-fit: cover; }
         h1 { font-weight: 800; font-size: 2rem; margin: 0; letter-spacing: -1px; color: var(--text-main); }
         .subtitle { color: var(--accent); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; opacity: 0.9; }
+        
         .news-toggle {
             position: absolute; right: 0; top: 10px; cursor: pointer;
             background: var(--glass-bg); padding: 10px; border-radius: 50%;
@@ -75,12 +62,12 @@
 
         /* CARDS */
         .card {
-            background: var(--glass-bg); backdrop-filter: var(--glass-blur);
+            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); border-radius: 20px; padding: 20px;
             margin-bottom: 15px; box-shadow: var(--glass-shadow);
         }
         
-        /* HEADER STATS & LIGHT */
+        /* HEADER STATS */
         .stats-row { display: flex; justify-content: space-between; align-items: center; }
         .stat-item { text-align: left; }
         .stat-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
@@ -124,7 +111,7 @@
         }
         .tab.active { background: #fff; color: var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
-        /* ORACLE & HEATMAP */
+        /* WIDGETS */
         .oracle-container { height: 425px; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border); background: #fff; }
         .oracle-controls { display: flex; gap: 8px; margin-bottom: 15px; }
         .oracle-btn {
@@ -146,7 +133,7 @@
         .row:active { background: #fff; transform: scale(0.98); }
         .row-left { display: flex; align-items: center; gap: 12px; }
         .row-img { width: 36px; height: 36px; border-radius: 50%; }
-        .row-name { font-weight: 700; font-size: 0.9rem; color: var(--text-main); }
+        .row-name { font-weight: 700; font-size: 0.95rem; color: var(--text-main); }
         .row-sub { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 6px; }
         .row-right { text-align: right; }
         .row-price { font-family: 'SF Mono', monospace; font-size: 0.95rem; font-weight: 700; }
@@ -179,8 +166,8 @@
         .tool-btn:active { transform: scale(0.98); }
 
         /* MODAL */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(240, 249, 255, 0.95); backdrop-filter: blur(15px); display: none; justify-content: center; align-items: center; z-index: 999; }
-        .modal-content { background: #fff; width: 92%; max-width: 800px; height: 75vh; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15); }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 999; }
+        .modal-content { background: #fff; width: 95%; max-width: 800px; height: 75vh; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
         .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; }
         .modal-title-box { display:flex; align-items:center; gap:12px; }
         .close-btn { background: #f1f5f9; border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 700; }
@@ -188,7 +175,14 @@
         
         .hidden { display: none; }
         .loader { text-align: center; padding: 30px; font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
-        .attribution { position: fixed; bottom: 10px; right: 20px; font-size: 0.65rem; color: var(--text-muted); opacity: 0.6; font-weight: 500; pointer-events: none; }
+        
+        /* FIXED FOOTER (STATIC) */
+        .attribution { 
+            margin-top: auto; /* Pushes to bottom of container */
+            padding-top: 40px; padding-bottom: 20px;
+            text-align: center; font-size: 0.65rem; color: var(--text-muted); 
+            opacity: 0.6; font-weight: 500; 
+        }
     </style>
 </head>
 <body>
@@ -255,9 +249,9 @@
                 <div class="section-title" style="margin-bottom:15px; font-size:0.8rem; font-weight:700; color:var(--text-muted)">🐋 Wallet Tracker</div>
                 <div class="whale-input"><input type="text" class="search-input" id="w-address" placeholder="Paste Wallet Address (0x... or sol...)"></div>
                 <div class="whale-tools">
-                    <div onclick="openTool('arkham')" class="tool-btn"><span style="font-size:1.2rem">👁️</span><span>Arkham</span></div>
-                    <div onclick="openTool('debank')" class="tool-btn"><span style="font-size:1.2rem">💰</span><span>DeBank</span></div>
-                    <div onclick="openTool('explorer')" class="tool-btn"><span style="font-size:1.2rem">🔗</span><span>Explorer</span></div>
+                    <div onclick="openTool('arkham')" class="tool-btn">👁️<br>Arkham</div>
+                    <div onclick="openTool('debank')" class="tool-btn">💰<br>DeBank</div>
+                    <div onclick="openTool('explorer')" class="tool-btn">🔗<br>Explorer</div>
                 </div>
             </div>
         </div>
@@ -279,9 +273,8 @@
             </div>
         </div>
 
+        <div class="attribution">Powered by CoinGecko, DexScreener & Cointelegraph</div>
     </div>
-
-    <div class="attribution">Powered by CoinGecko, DexScreener & Cointelegraph</div>
 
     <div id="modal" class="modal-overlay" onclick="closeModal(event)">
         <div class="modal-content">
@@ -290,7 +283,7 @@
                     <img id="m-img" src="" style="width:32px; border-radius:50%">
                     <div class="stat-val" style="font-size:1.2rem" id="modal-title">Chart</div>
                 </div>
-                <button class="close-btn" onclick="closeModal()">Close</button>
+                <button class="close-btn" onclick="closeModal(null)">Close</button>
             </div>
             <div id="chart-container"></div>
         </div>
@@ -407,14 +400,12 @@
             const container = document.getElementById(id); container.innerHTML = '';
             data.forEach(c => {
                 const div = document.createElement('div'); div.className = 'row';
-                
                 if(type === 'cex') {
                     const chartSym = `BINANCE:${c.symbol.toUpperCase()}USDT`;
                     div.onclick = function() { launchModal(c.name, c.image, chartSym); };
                 } else {
                     div.onclick = function() { window.open(c.url, '_blank'); };
                 }
-
                 const price = c.current_price < 1 ? c.current_price.toFixed(6) : c.current_price.toLocaleString();
                 const change = c.price_change_percentage_24h ? c.price_change_percentage_24h.toFixed(2) + '%' : 'New';
                 const colorClass = (c.price_change_percentage_24h >= 0 || c.price_change_percentage_24h === undefined) ? 'pump' : 'dump';
@@ -467,21 +458,22 @@
             window.open(url, '_blank');
         }
 
-        // --- RESTORED CHART LOGIC (V17 Engine) ---
+        // --- RESTORED CHART LOGIC (V17 Style) ---
         const modal = document.getElementById('modal');
-        const chartContainer = document.getElementById('chart-container'); // Explicit ID Match
+        const chartContainer = document.getElementById('chart-container'); // Correct ID
 
         function launchModal(name, img, symbol) {
             document.getElementById('modal-title').innerText = name;
             document.getElementById('m-img').src = img || CONFIG.logo;
             
-            // 1. Clear old chart
+            // 1. Clear previous widget
             chartContainer.innerHTML = '';
             
-            // 2. Show Modal (Flex)
+            // 2. Show Modal FIRST (Important for widget init)
             modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show-modal'), 10);
             
-            // 3. Init TradingView IMMEDIATELY (No Timers)
+            // 3. Init Widget Immediately (No timeouts)
             new TradingView.widget({
                 "autosize": true,
                 "symbol": symbol,
@@ -493,15 +485,17 @@
                 "toolbar_bg": "#f1f3f6",
                 "enable_publishing": false,
                 "allow_symbol_change": true,
-                "container_id": "chart-container"
+                "container_id": "chart-container" // Must match div ID
             });
         }
 
         function closeModal(e) {
-            // Close logic
             if (e === null || e.target === modal || e.target.tagName === 'BUTTON') {
-                modal.style.display = 'none';
-                chartContainer.innerHTML = ''; // Save memory
+                modal.classList.remove('show-modal');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    chartContainer.innerHTML = ''; // Clean up
+                }, 300);
             }
         }
 
