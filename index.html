@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <title>Alpha Scout</title> <meta name="description" content="Real-Time Crypto Intelligence">
+    <title>Alpha Scout</title>
+    <meta name="description" content="Real-Time Crypto Intelligence">
     
     <link id="favicon" rel="icon" href="https://i.postimg.cc/0yf3NkFZ/photo-5951938547948391284-y.jpg">
     <link id="shortcut" rel="shortcut icon" href="https://i.postimg.cc/0yf3NkFZ/photo-5951938547948391284-y.jpg">
@@ -74,7 +75,7 @@
             margin-bottom: 15px; box-shadow: var(--glass-shadow);
         }
         
-        /* HEADER STATS */
+        /* HEADER STATS & LIGHT */
         .stats-row { display: flex; justify-content: space-between; align-items: center; }
         .stat-item { text-align: left; }
         .stat-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
@@ -139,7 +140,7 @@
         }
         .row:active { background: #fff; transform: scale(0.98); }
         .row-left { display: flex; align-items: center; gap: 12px; }
-        .row-img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+        .row-img { width: 36px; height: 36px; border-radius: 50%; }
         .row-name { font-weight: 700; font-size: 0.95rem; color: var(--text-main); }
         .row-sub { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 6px; }
         .row-right { text-align: right; }
@@ -173,17 +174,39 @@
         .tool-btn:active { transform: scale(0.98); }
 
         /* MODAL */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px); display: none; justify-content: center; align-items: center; z-index: 999; }
-        .modal-content { background: #fff; width: 92%; max-width: 800px; height: 75vh; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px); 
+            display: none; justify-content: center; align-items: center; z-index: 999; 
+        }
+        
+        /* Modal Transitions */
+        .modal-content { 
+            background: #fff; width: 92%; max-width: 800px; height: 75vh; 
+            border-radius: 24px; padding: 20px; display: flex; flex-direction: column; 
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            transition: all 0.3s ease;
+        }
+        
+        /* FULL SCREEN CLASS */
+        .modal-content.full-screen {
+            width: 100vw; height: 100vh; max-width: none; border-radius: 0; padding: 10px;
+        }
+
         .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; }
         .modal-title-box { display:flex; align-items:center; gap:12px; }
-        .close-btn { background: #f1f5f9; border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 700; }
-        #chart-container { flex-grow: 1; border-radius: 16px; overflow: hidden; background: #fff; margin-bottom: 15px; border: 1px solid #e2e8f0; }
+        .modal-actions { display:flex; gap:10px; }
+        
+        .close-btn { 
+            background: #f1f5f9; border: none; padding: 10px 16px; border-radius: 12px; 
+            cursor: pointer; font-weight: 700; font-size: 0.9rem; color: var(--text-main);
+        }
+        .close-btn:active { background: #e2e8f0; }
+        
+        #chart-container { flex-grow: 1; border-radius: 16px; overflow: hidden; background: #fff; border: 1px solid #e2e8f0; }
         
         .hidden { display: none; }
         .loader { text-align: center; padding: 30px; font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
-        
-        /* FOOTER */
         .attribution { margin-top: auto; padding-top: 30px; text-align: center; font-size: 0.65rem; color: var(--text-muted); opacity: 0.6; font-weight: 500; }
     </style>
 </head>
@@ -278,14 +301,17 @@
         <div class="attribution">Powered by CoinGecko, DexScreener & Cointelegraph</div>
     </div>
 
-    <div id="modal" class="modal-overlay" onclick="closeModal(event)">
+    <div id="modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title-box">
                     <img id="m-img" src="" style="width:32px; border-radius:50%">
                     <div class="stat-val" style="font-size:1.2rem" id="modal-title">Chart</div>
                 </div>
-                <button class="close-btn" onclick="closeModal(null)">Close</button>
+                <div class="modal-actions">
+                    <button class="close-btn" onclick="toggleFullScreen()" title="Full Screen">⤢</button>
+                    <button class="close-btn" onclick="closeModal()">Close</button>
+                </div>
             </div>
             <div id="chart-container"></div>
         </div>
@@ -297,7 +323,7 @@
         document.getElementById('display-logo').src = CONFIG.logo;
         document.getElementById('m-img').src = CONFIG.logo;
 
-        // MOCK DATA (Fallback)
+        // MOCK DATA
         const MOCK_MARKET = [
             { id: "bitcoin", name: "Bitcoin", symbol: "btc", image: CONFIG.logo, current_price: 95000, price_change_percentage_24h: 2.5 },
             { id: "ethereum", name: "Ethereum", symbol: "eth", image: "https://assets.coingecko.com/coins/images/279/small/ethereum.png", current_price: 2700, price_change_percentage_24h: 1.2 },
@@ -402,12 +428,14 @@
             const container = document.getElementById(id); container.innerHTML = '';
             data.forEach(c => {
                 const div = document.createElement('div'); div.className = 'row';
+                
                 if(type === 'cex') {
                     const chartSym = `BINANCE:${c.symbol.toUpperCase()}USDT`;
                     div.onclick = function() { launchModal(c.name, c.image, chartSym); };
                 } else {
                     div.onclick = function() { window.open(c.url, '_blank'); };
                 }
+
                 const price = c.current_price < 1 ? c.current_price.toFixed(6) : c.current_price.toLocaleString();
                 const change = c.price_change_percentage_24h ? c.price_change_percentage_24h.toFixed(2) + '%' : 'New';
                 const colorClass = (c.price_change_percentage_24h >= 0 || c.price_change_percentage_24h === undefined) ? 'pump' : 'dump';
@@ -460,21 +488,21 @@
             window.open(url, '_blank');
         }
 
-        // --- CHART LAUNCHER (V17 Logic) ---
+        // --- FULL SCREEN MODAL LOGIC ---
         const modal = document.getElementById('modal');
         const chartContainer = document.getElementById('chart-container');
+
+        function toggleFullScreen() {
+            document.querySelector('.modal-content').classList.toggle('full-screen');
+        }
 
         function launchModal(name, img, symbol) {
             document.getElementById('modal-title').innerText = name;
             document.getElementById('m-img').src = img || CONFIG.logo;
-            
-            // 1. Clear old chart
-            chartContainer.innerHTML = '';
-            
-            // 2. Show Modal (Flex)
+            chartContainer.innerHTML = ''; 
             modal.style.display = 'flex';
             
-            // 3. Init TradingView IMMEDIATELY (No timeouts/No Defer)
+            // Immediate Chart Init (V17 Logic)
             new TradingView.widget({
                 "autosize": true,
                 "symbol": symbol,
@@ -490,11 +518,10 @@
             });
         }
 
-        function closeModal(e) {
-            if (e === null || e.target === modal || e.target.tagName === 'BUTTON') {
-                modal.style.display = 'none';
-                chartContainer.innerHTML = ''; 
-            }
+        function closeModal() {
+            modal.style.display = 'none';
+            chartContainer.innerHTML = '';
+            document.querySelector('.modal-content').classList.remove('full-screen'); // Reset
         }
 
         // Init
